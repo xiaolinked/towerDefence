@@ -8,11 +8,11 @@ import {
   projectileImages
 } from "./constants.js";
 export class Projectile {
-  constructor(x, y, target, damage, towerType) {
+  constructor(x, y, target, damage, towerType,speed) {
     this.x = x;
     this.y = y;
     this.target = target;
-    this.speed = 10;
+    this.speed = speed;
     this.damage = damage;
     this.towerType = towerType;
   }
@@ -22,7 +22,9 @@ export class Projectile {
     const dy = this.target.y - this.y;
     const distance = Math.sqrt(dx * dx + dy * dy);
 
-    if (distance > this.speed) {
+    const targetSize = GRID_SIZE* 0.8;
+    const hitDistance = this.speed + targetSize/2;
+    if (distance > hitDistance) {
       this.x += (dx / distance) * this.speed;
       this.y += (dy / distance) * this.speed;
       return true;
