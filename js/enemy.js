@@ -8,6 +8,20 @@ export  class Enemy {
       this.health = ENEMY_TYPES[type].health;
       this.speed = ENEMY_TYPES[type].speed;
       this.reward = ENEMY_TYPES[type].reward;
+  
+      // New properties for animation
+      this.images = [];
+      this.currentImageIndex = 0;
+      this.animationSpeed = 10; // Adjust this value to change animation speed
+      this.animationCounter = 0;
+
+     // Load images based on enemy type
+     const imageCount = ENEMY_TYPES[type].imageCount || 5; // Default to 5 if not specified
+     for (let i = 1; i <= imageCount; i++) {
+       const img = new Image();
+       img.src = `statics/enemies/${type.toLowerCase()}_${i}.png`;
+       this.images.push(img);
+     }
     }
   
     update() {
@@ -29,6 +43,13 @@ export  class Enemy {
         this.y += (dy / distance) * this.speed;
       }
   
+      // Update animation
+      this.animationCounter++;
+      if (this.animationCounter >= this.animationSpeed) {
+        this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
+        this.animationCounter = 0;
+      }
+
       if (this.health <= 0) {
         gameState.money += this.reward;
         return false;
@@ -38,14 +59,16 @@ export  class Enemy {
     }
   
     draw() {
-      ctx.fillStyle = ENEMY_TYPES[this.type].color;
-      ctx.fillRect(
+      // Draw the enemy image
+      const img = this.images[this.currentImageIndex];
+      ctx.drawImage(
+        img,
         this.x - GRID_SIZE * 0.4,
         this.y - GRID_SIZE * 0.4,
         GRID_SIZE * 0.8,
         GRID_SIZE * 0.8
       );
-  
+
       // Health bar
       ctx.fillStyle = "red";
       ctx.fillRect(

@@ -113,22 +113,18 @@ export const gameState = {
 
 
 export const ENEMY_TYPES = {
-  NORMAL: {
+  SLIME: {
     health: 100,
     speed: 1,
     color: "red",
     reward: 15,
+    imageCount:5,
   },
   FAST: {
     health: 50,
     speed: 2,
     color: "green",
     reward: 20,
-  },
-  TANK: {
-    health: 300,
-    speed: 0.5,
-    color: "gray",
-    reward: 40,
-  },
+    imageCount:5,
+  }
 };

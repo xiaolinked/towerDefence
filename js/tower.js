@@ -8,6 +8,10 @@ import {
 } from "./constants.js";
 import { Projectile } from "./projectile.js";
 
+// Add this line to load the base image
+const baseImage = new Image();
+baseImage.src = './statics/towers/base.png';
+
 export class Tower {
   constructor(gridX, gridY, towerType) {
     this.gridX = gridX;
@@ -75,6 +79,9 @@ export class Tower {
     ctx.save();
     ctx.translate(this.x, this.y);
 
+    // Draw the base image (not rotated)
+    const baseSize = GRID_SIZE * 1.2; // Adjust this value as needed
+    ctx.drawImage(baseImage, -baseSize / 2, -baseSize / 2, baseSize, baseSize);
     // Calculate rotation angle if there's a target
     if (this.lastTarget) {
       const dx = this.lastTarget.x - this.x;
@@ -203,7 +210,7 @@ export const TOWER_TYPES = {
         cost: 60,
         damage: 55,
         range: 500,
-        fireRate: 0.6,
+        fireRate: 0.8,
         projectileSpeed: 5,
         image: "statics/towers/rocket_tower_2.png",
       },
@@ -211,7 +218,7 @@ export const TOWER_TYPES = {
         cost: 100,
         damage: 70,
         range: 600,
-        fireRate: 0.7,
+        fireRate: 1.0,
         projectileSpeed: 5,
         image: "statics/towers/rocket_tower_3.png",
       },
